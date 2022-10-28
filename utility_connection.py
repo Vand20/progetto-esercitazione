@@ -62,3 +62,14 @@ class ConnectionUtil:
         film = self.cursor.fetchall()
         for x in film:
             print(x)
+
+    def getActorById(self):
+        self.cursor.execute(
+            """
+            SELECT actor_id
+            FROM actor
+            """
+        )
+        actor_id = self.cursor.fetchall()
+        for x in actor_id:
+            print(x)
