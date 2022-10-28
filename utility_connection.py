@@ -1,86 +1,23 @@
 import mysql.connector
 from mysql.connector import Error
 
-class ConnectionUtil:
+class MySql:
 
-    def get_connection(self):
+    def __init__(self):
         try:
-            self.connection = mysql.connector.connect(
-                host='localhost',
-                database='sakila',
-                user='root',
-                password='Daniele68!'
-            )
-            if self.connection.is_connected():
-                print('Connection established')
+            self.conn = mysql.connector.connect(host='localhost', database='sakila', user='root', password='Daniele68!')
+            self.cursor = self.conn.cursor()
         except Error as e:
-            print(e)
-        return self.connection
+            print("Error while connecting to MySQL", e)
 
-    def get_cursor(self, connection):
-        self.cursor = connection.cursor()
-        print('Cursor created')
-        return self.cursor
+    def close_connection(self):
+        if (self.conn is not None):
+                self.cursor.close()
+                self.conn.close()
+                print("MySQL connection is closed")
 
-    def close_connection(self, connection):
-        connection.close()
-        print('Connection closed')
+    def execute(self, sql):
+        self.cursor.execute(sql)
 
-    def getAllActor(self):
-        self.cursor.execute(
-        """
-        SELECT first_name, last_name
-        FROM Actor
-        ORDER BY last_name
-        """
-        )
-        records = self.cursor.fetchall()
-        for row in records:
-            print(row)
-
-    def getAllActorsByFilm(self,filmTitle):
-        self.cursor.execute(
-            """
-            SELECT f.title, count(*) 
-            FROM actor a, film_actor fa, film f
-            WHERE a.actor_id = fa.actor_id 
-            AND fa.actor_id = f.film_id
-            GROUP BY f.title
-            """
-        )
-        records = self.cursor.fetchall()
-        for row in records:
-            print(row)
-    
-    def getAllFilm(self):
-        self.cursor.execute(
-            """
-            SELECT * 
-            FROM film
-            """
-        )
-        film = self.cursor.fetchall()
-        for x in film:
-            print(x)
-
-    def getActorById(self):
-        self.cursor.execute(
-            """
-            SELECT actor_id
-            FROM actor
-            """
-        )
-        actor_id = self.cursor.fetchall()
-        for i in actor_id:
-            print(i)
-
-    def getFilmByTitle(self):
-        self.cursor.execute(
-            """
-            SELECT title
-            FROM film
-            """
-        )
-        film = self.cursor.fetchall()
-        for i in film:
-            print(i)
+    def fetchall(self):
+        return self.cursor.fetchall()
