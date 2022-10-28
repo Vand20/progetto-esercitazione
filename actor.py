@@ -9,6 +9,7 @@ connection.getAllActorsByFilm("ACADEMY DINOSAUR")
 
 connection.getAllFilm()
 connection.getActorById("1")
+connection.getFilmByTitle()
 
 cursor.close()
 connection.close_connection(connession)
