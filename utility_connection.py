@@ -71,5 +71,5 @@ class ConnectionUtil:
             """
         )
         actor_id = self.cursor.fetchall()
-        for x in actor_id:
-            print(x)
+        for i in actor_id:
+            print(i)
