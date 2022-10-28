@@ -21,6 +21,3 @@ class BusinessFactory:
 best_actors = BusinessFactory()
 
 print(best_actors.getBestActors())
-
-
-jvjvjvjjv
